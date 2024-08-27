@@ -29,3 +29,30 @@ private:
 };
 
 #endif // EVENTBUS_H
+#ifndef EVENTBUS_H
+#define EVENTBUS_H
+
+#include <stdbool.h>
+#include <sys/types.h>
+
+#define MAX_TOPICS 20
+#define MAX_PUBLISHERS 10
+#define MAX_SUBSCRIBERS 10
+#define MAX_TOPIC_LENGTH 50
+#define MAX_PUBLISHER_LENGTH 50
+#define MAX_SUBSCRIBER_LENGTH 50
+#define MAX_DATA_LENGTH 1024
+
+typedef struct EventBus EventBus;
+
+EventBus* eventbus_create();
+void eventbus_destroy(EventBus* bus);
+
+int eventbus_add_topic(EventBus* bus, const char* topic, const char* publisher);
+int eventbus_add_publisher(EventBus* bus, const char* topic, const char* publisher);
+int eventbus_add_subscriber(EventBus* bus, const char* topic, const char* subscriber);
+int eventbus_publish(EventBus* bus, const char* topic, const char* data);
+int eventbus_subscribe(EventBus* bus, const char* topic, void (*callback)(const char*, const char*));
+void eventbus_list_topics(EventBus* bus);
+
+#endif // EVENTBUS_H
