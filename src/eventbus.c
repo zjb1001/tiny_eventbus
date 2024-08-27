@@ -3,7 +3,16 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void publish_event(SharedMemory* shm, const char* topic, const char* data) {
+void init_eventbus() {
+    init_shared_memory();
+}
+
+void cleanup_eventbus() {
+    destroy_shared_memory();
+}
+
+void publish_event(const char* topic, const char* data) {
+    SharedMemory* shm = get_shared_memory();
     shm->publisher_count++;
     
     // Check if the topic already exists
@@ -32,7 +41,8 @@ void publish_event(SharedMemory* shm, const char* topic, const char* data) {
     }
 }
 
-void subscribe_event(SharedMemory* shm, const char* topic, void (*callback)(const char*, const char*)) {
+void subscribe_event(const char* topic, void (*callback)(const char*, const char*)) {
+    SharedMemory* shm = get_shared_memory();
     shm->subscriber_count++;
     printf("Subscribed to topic: %s\n", topic);
     

@@ -8,16 +8,16 @@ void event_callback(const char* topic, const char* data) {
 }
 
 int main() {
-    SharedMemory* shm = (SharedMemory*)create_shared_memory();
+    init_eventbus();
     
     char topic[MAX_TOPIC_LENGTH];
     printf("Enter topic to subscribe: ");
     fgets(topic, sizeof(topic), stdin);
     topic[strcspn(topic, "\n")] = 0;  // Remove newline
     
-    subscribe_event(shm, topic, event_callback);
+    subscribe_event(topic, event_callback);
     
-    // Note: The destroy_shared_memory(shm) call is removed because the subscribe_event function now runs indefinitely
+    // Note: cleanup_eventbus() is not called here because subscribe_event runs indefinitely
     
     return 0;
 }

@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int main() {
-    SharedMemory* shm = (SharedMemory*)create_shared_memory();
+    init_eventbus();
     
     char topic[MAX_TOPIC_LENGTH];
     char data[SHM_SIZE];
@@ -23,11 +23,11 @@ int main() {
         fgets(data, sizeof(data), stdin);
         data[strcspn(data, "\n")] = 0;  // Remove newline
         
-        publish_event(shm, topic, data);
+        publish_event(topic, data);
         
         sleep(1);  // Wait for 1 second before next publication
     }
     
-    destroy_shared_memory(shm);
+    cleanup_eventbus();
     return 0;
 }
