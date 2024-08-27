@@ -1,21 +1,19 @@
 #include "eventbus.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <string>
 
-void event_callback(const char* topic, const char* data) {
-    printf("Received event - Topic: %s, Data: %s\n", topic, data);
+void event_callback(const std::string& topic, const std::string& data) {
+    std::cout << "Received event - Topic: " << topic << ", Data: " << data << std::endl;
 }
 
 int main() {
-    init_eventbus();
+    EventBus::getInstance().init_eventbus();
     
-    char topic[MAX_TOPIC_LENGTH];
-    printf("Enter topic to subscribe: ");
-    fgets(topic, sizeof(topic), stdin);
-    topic[strcspn(topic, "\n")] = 0;  // Remove newline
+    std::string topic;
+    std::cout << "Enter topic to subscribe: ";
+    std::getline(std::cin, topic);
     
-    subscribe_event(topic, event_callback);
+    EventBus::getInstance().subscribe_event(topic, event_callback);
     
     // Note: cleanup_eventbus() is not called here because subscribe_event runs indefinitely
     

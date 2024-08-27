@@ -1,33 +1,30 @@
 #include "eventbus.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <string>
 #include <unistd.h>
 
 int main() {
-    init_eventbus();
+    EventBus::getInstance().init_eventbus();
     
-    char topic[MAX_TOPIC_LENGTH];
-    char data[SHM_SIZE];
+    std::string topic;
+    std::string data;
     
     while (1) {
-        printf("Enter topic (or 'quit' to exit): ");
-        fgets(topic, sizeof(topic), stdin);
-        topic[strcspn(topic, "\n")] = 0;  // Remove newline
+        std::cout << "Enter topic (or 'quit' to exit): ";
+        std::getline(std::cin, topic);
         
-        if (strcmp(topic, "quit") == 0) {
+        if (topic == "quit") {
             break;
         }
         
-        printf("Enter data: ");
-        fgets(data, sizeof(data), stdin);
-        data[strcspn(data, "\n")] = 0;  // Remove newline
+        std::cout << "Enter data: ";
+        std::getline(std::cin, data);
         
-        publish_event(topic, data);
+        EventBus::getInstance().publish_event(topic, data);
         
         sleep(1);  // Wait for 1 second before next publication
     }
     
-    cleanup_eventbus();
+    EventBus::getInstance().cleanup_eventbus();
     return 0;
 }
