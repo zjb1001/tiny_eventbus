@@ -10,8 +10,11 @@ The Tiny EventBus Service is designed to enable efficient inter-process event co
 ├── src/
 │   ├── eventbus.h
 │   ├── eventbus.c
-│   ├── publisher.c
-│   └── subscriber.c
+├── examples
+│   ├── publisher_command.c
+│   ├── publisher_interative.c
+│   ├── subscriber_command.c
+│   └── subscriber_interative.c
 ```
 ## Purpose
 
