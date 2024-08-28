@@ -1,19 +1,8 @@
-# Tiny EventBus 使用说明
+# Tiny EventBus Service
 
-## 概述
+The Tiny EventBus Service is designed to enable efficient inter-process event communication through shared memory. This service allows processes to publish and subscribe to events, facilitating real-time communication without the overhead of network calls.
 
-Tiny EventBus 是一个轻量级的、基于共享内存和信号量的进程间事件总线系统。它允许不同的进程注册为发布者或订阅者，并通过共享内存进行消息的发布和订阅。
-
-## 功能
-
-- **发布者注册**：进程可以注册为发布者，并获得一个唯一的发布者ID。
-- **消息发布**：发布者可以通过其ID发布消息到指定的主题。
-- **订阅者注册**：进程可以订阅感兴趣的主题，并接收相关消息。
-- **消息订阅**：订阅者可以接收并处理发布到其订阅主题的消息。
-
-## 基本框架介绍
-
-### 目录结构
+## Structure
 
 ```
 /home/pg/OwnRepoground/tiny_eventbus/
@@ -24,50 +13,85 @@ Tiny EventBus 是一个轻量级的、基于共享内存和信号量的进程间
 │   ├── publisher.c
 │   └── subscriber.c
 ```
+## Purpose
 
-### 主要文件说明
+The primary goal of the Tiny EventBus Service is to provide a lightweight and efficient mechanism for inter-process communication (IPC) using shared memory. This approach is particularly useful for high-performance applications where low latency and high throughput are critical.
 
-- **eventbus.h**：定义了事件总线的数据结构和API接口。
-- **eventbus.c**：实现了事件总线的核心功能，包括共享内存和信号量的初始化、发布者和订阅者的注册、消息的发布和订阅等。
-- **publisher.c**：实现了发布者的主程序，允许进程注册为发布者并发布消息。
-- **subscriber.c**：实现了订阅者的主程序，允许进程订阅主题并接收消息。
-- **Makefile**：用于编译和构建项目的Makefile文件。
+## Setup
 
-### 编译和运行
+To set up the Tiny EventBus Service, follow these steps:
 
-1. **编译项目**：
-    ```bash
-    make
-    ```
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/your-repo/tiny_eventbus_demo.git
+   cd tiny_eventbus_demo
+   ```
 
-2. **运行发布者**：
-    ```bash
-    ./publisher <publisher_name>
-    ```
+2. **Build the Service:**
+   ```bash
+   make
+   ```
 
-3. **运行订阅者**：
-    ```bash
-    ./subscriber <topic_name>
-    ```
+3. **Run the Service:**
+   ```bash
+   ./init_eventbus <bus_name>
+   ```
 
-## 示例
+## Usage
 
-### 发布者示例
+### Initializing the EventBus
 
-```bash
-./publisher my_publisher
-```
-
-### 订阅者示例
+To initialize the EventBus, run the following command:
 
 ```bash
-./subscriber my_topic
+./init_eventbus <bus_name>
 ```
 
-## 贡献
+### Connecting to the EventBus Interative Model
 
-欢迎贡献代码和提出改进建议。请通过GitHub提交Pull Request或Issue。
+To connect to an existing EventBus, use the following command:
 
-## 许可证
+```bash
+./examples/publisher_interative <bus_name>
+```
 
-本项目采用MIT许可证。详细信息请参阅LICENSE文件。
+or
+
+```bash
+./examples/subscriber_interative <bus_name> <subscriber_id>
+```
+
+### Publishing and Subscribing to Events by Command line Parameters
+
+- **Publishing Events:**
+  ```bash
+  ./examples/publisher_command <bus_name> <topic> <data> [period]
+  ```
+
+- **Subscribing to Events:**
+  ```bash
+  ./examples/subscriber_command <bus_name> <topic> [subscriber_id]
+  ```
+
+## Examples
+
+The `examples` directory contains several example programs demonstrating how to use the EventBus service:
+
+- `publisher_interative.c`: Interactive publisher example.
+- `subscriber_interative.c`: Interactive subscriber example.
+- `publisher_command.c`: Command-line publisher example.
+- `subscriber_command.c`: Command-line subscriber example.
+
+## Contributing
+
+Contributions to the Tiny EventBus Service are welcome! Please follow the standard GitHub workflow for contributing:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes.
+4. Push your branch to your fork.
+5. Submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
