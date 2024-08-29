@@ -12,6 +12,7 @@
 typedef struct {
     int subscriber_id;
     bool active;
+    bool subscribed;
 } Subscriber;
 
 typedef struct {
@@ -32,9 +33,10 @@ bool eventbus_init(const char* bus_name);
 bool eventbus_connect(const char* bus_name);
 void eventbus_disconnect();
 int eventbus_create_topic(const char* topic_name);
-int eventbus_subscribe_to_topic(const char* topic_name, int subscriber_id);
+int eventbus_subscribe_to_topic(const char* topic_name);
 int eventbus_publish_message(const char* topic_name, const char* message);
 char* eventbus_read_message(const char* topic_name);
 void eventbus_cleanup();
+EventBus* eventbus_get_bus();
 
 #endif // EVENTBUS_H

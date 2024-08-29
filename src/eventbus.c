@@ -137,6 +137,10 @@ void eventbus_disconnect() {
     memset(current_bus_name, 0, sizeof(current_bus_name));
 }
 
+EventBus* eventbus_get_bus() {
+    return bus;
+}
+
 int eventbus_create_topic(const char* topic_name) {
     if (!bus || sem_wait(sem) == -1) {
         return -1;
@@ -162,7 +166,8 @@ int eventbus_create_topic(const char* topic_name) {
     return result;
 }
 
-int eventbus_subscribe_to_topic(const char* topic_name, int subscriber_id) {
+int eventbus_subscribe_to_topic(const char* topic_name) {
+    pid_t subscriber_id = getpid();
     if (!bus || sem_wait(sem) == -1) {
         return -1;
     }
@@ -170,7 +175,14 @@ int eventbus_subscribe_to_topic(const char* topic_name, int subscriber_id) {
     int result = -1;
     for (int i = 0; i < bus->topic_count; i++) {
         if (strcmp(bus->topics[i].name, topic_name) == 0) {
-            if (bus->topics[i].subscriber_count < MAX_SUBSCRIBERS) {
+            bool already_subscribed = false;
+            for (int j = 0; j < bus->topics[i].subscriber_count; j++) {
+                if (bus->topics[i].subscribers[j].subscriber_id == subscriber_id) {
+                    already_subscribed = true;
+                    break;
+                }
+            }
+            if (!already_subscribed && bus->topics[i].subscriber_count < MAX_SUBSCRIBERS) {
                 bus->topics[i].subscribers[bus->topics[i].subscriber_count].subscriber_id = subscriber_id;
                 bus->topics[i].subscribers[bus->topics[i].subscriber_count].active = true;
                 bus->topics[i].subscriber_count++;
@@ -206,6 +218,7 @@ int eventbus_publish_message(const char* topic_name, const char* message) {
 }
 
 char* eventbus_read_message(const char* topic_name) {
+    pid_t subscriber_id = getpid();
     if (!bus || sem_wait(sem) == -1) {
         return NULL;
     }
@@ -213,7 +226,16 @@ char* eventbus_read_message(const char* topic_name) {
     char* result = NULL;
     for (int i = 0; i < bus->topic_count; i++) {
         if (strcmp(bus->topics[i].name, topic_name) == 0) {
-            result = bus->topics[i].message;
+            bool is_subscribed = false;
+            for (int j = 0; j < bus->topics[i].subscriber_count; j++) {
+                if (bus->topics[i].subscribers[j].subscriber_id == subscriber_id && bus->topics[i].subscribers[j].active) {
+                    is_subscribed = true;
+                    break;
+                }
+            }
+            if (is_subscribed) {
+                result = bus->topics[i].message;
+            }
             break;
         }
     }
