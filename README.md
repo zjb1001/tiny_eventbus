@@ -2,23 +2,37 @@
 
 The Tiny EventBus Service is designed to enable efficient inter-process event communication through shared memory. This service allows processes to publish and subscribe to events, facilitating real-time communication without the overhead of network calls.
 
-## Structure
+## Project Structure
 
 ```
-/home/pg/OwnRepoground/tiny_eventbus/
+./tiny_eventbus_demo/
 ├── Makefile
 ├── src/
 │   ├── eventbus.h
 │   ├── eventbus.c
-├── examples
-│   ├── publisher_command.c
+│   ├── init_eventbus.c
+│   └── eventbus.h
+├── examples/
 │   ├── publisher_interative.c
-│   ├── subscriber_command.c
-│   └── subscriber_interative.c
+│   ├── subscriber_interative.c
+│   ├── publisher_command.c
+│   └── subscriber_command.c
+├── test/
+│   └── test_eventbus.cpp
+└── README.md
 ```
 ## Purpose
 
-The primary goal of the Tiny EventBus Service is to provide a lightweight and efficient mechanism for inter-process communication (IPC) using shared memory. This approach is particularly useful for high-performance applications where low latency and high throughput are critical.
+The primary goal of the Tiny EventBus Service is to facilitate efficient inter-process event management through a structured, engineering approach. By leveraging shared memory for IPC, this service ensures low latency and high throughput, making it ideal for high-performance applications. The project aims to provide a robust framework for publishing, subscribing to, and managing events across different processes, enabling real-time communication without the overhead of network calls.
+
+## Features
+
+- **Event Publishing and Subscribing:** Processes can publish events to specific topics and subscribe to topics to receive events.
+- **Shared Memory IPC:** Utilizes shared memory for efficient and low-latency inter-process communication.
+- **Topic Management:** Supports creation and management of topics, allowing for organized event distribution.
+- **Real-time Communication:** Ensures real-time event delivery, critical for time-sensitive applications.
+- **Scalable and Lightweight:** Designed to be lightweight and scalable, suitable for various application sizes and complexities.
+- **Error Handling and Cleanup:** Includes mechanisms for error handling and resource cleanup to maintain system stability.
 
 ## Setup
 
@@ -86,6 +100,50 @@ The `examples` directory contains several example programs demonstrating how to 
 - `subscriber_command.c`: Command-line subscriber example.
 
 ## Contributing
+
+## Testing with Google Test (gtest)
+
+### Installing gtest
+
+#### Using APT Package Management (Debian/Ubuntu)
+
+To install gtest using APT, run the following commands:
+
+```bash
+sudo apt-get update
+sudo apt-get install libgtest-dev
+```
+
+Note: After installation, you may need to build gtest manually. Navigate to the gtest source directory and run:
+
+```bash
+cd /usr/src/gtest
+sudo cmake .
+sudo make
+sudo make install
+```
+
+#### Manual Download and Installation
+
+To manually download and install gtest, follow these steps:
+
+1. Download the gtest source code from the [official GitHub repository](https://github.com/google/googletest).
+2. Extract the downloaded archive and navigate to the extracted directory.
+3. Build and install gtest:
+
+```bash
+cmake .
+make
+sudo make install
+```
+
+### Running Tests
+
+To run the tests, use the following command:
+
+```bash
+make run_test
+```
 
 Contributions to the Tiny EventBus Service are welcome! Please follow the standard GitHub workflow for contributing:
 
