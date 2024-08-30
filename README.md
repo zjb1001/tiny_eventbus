@@ -5,10 +5,9 @@ The Tiny EventBus Service is designed to enable efficient inter-process event co
 ## Project Structure
 
 ```
-./tiny_eventbus_demo/
+./tiny_eventbus/
 ├── Makefile
 ├── src/
-│   ├── eventbus.h
 │   ├── eventbus.c
 │   ├── init_eventbus.c
 │   └── eventbus.h
@@ -40,7 +39,7 @@ To set up the Tiny EventBus Service, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-repo/tiny_eventbus_demo.git
+   git clone https://github.com/zjb1001/tiny_eventbus.git
    cd tiny_eventbus_demo
    ```
 
@@ -69,25 +68,25 @@ To initialize the EventBus, run the following command:
 To connect to an existing EventBus, use the following command:
 
 ```bash
-./examples/publisher_interative <bus_name>
+./publisher_interative <bus_name>
 ```
 
 or
 
 ```bash
-./examples/subscriber_interative <bus_name> <subscriber_id>
+./subscriber_interative <bus_name> <subscriber_id>
 ```
 
 ### Publishing and Subscribing to Events by Command line Parameters
 
 - **Publishing Events:**
   ```bash
-  ./examples/publisher_command <bus_name> <topic> <data> [period]
+  ./publisher_command <bus_name> <topic> <data> [period]
   ```
 
 - **Subscribing to Events:**
   ```bash
-  ./examples/subscriber_command <bus_name> <topic> [subscriber_id]
+  ./subscriber_command <bus_name> <topic> [subscriber_id]
   ```
 
 ## Examples
